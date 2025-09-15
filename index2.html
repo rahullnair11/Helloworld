@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Template</title>
+  <style>
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f8f9fa;
+      color: #222;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    /* Responsive images */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    /* Responsive typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 0.5em;
+      word-break: break-word;
+    }
+    /* Example responsive grid */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .col {
+      flex: 1 1 300px;
+      min-width: 0;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0.5rem;
+      }
+      .row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Paste your HTML body content here -->
+  </div>
+</body>
+</html>
