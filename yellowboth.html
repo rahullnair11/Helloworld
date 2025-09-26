@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consistent Elements Page</title>
+  <style>
+    body {
+      color: #494848;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <header style="background: rgb(255,188,0); padding: 0.5rem 1rem;">
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+      <!-- Logo and Brand -->
+      <div style="display: flex; align-items: center;">
+        <img src="26.PNG" alt="Logo" style="height: 40px; width: 40px; object-fit: contain; margin-right: 8px;">
+        <span style="font-weight: bold; font-size: 1.25rem; color: #484848;">Circle four</span>
+      </div>
+      <!-- Search and Icons -->
+      <div style="display: flex; align-items: center; gap: 2rem;">
+        <form style="display: flex; align-items: center; background: #f3f3f3; border-radius: 8px; overflow: hidden; border: 1px solid #ccc;">
+          <span style="display: flex; align-items: center; padding-left: 0.75rem; color: #aaa;">
+            <svg width="20" height="20" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input type="text" placeholder="Search for products, brands and more" style="border: none; outline: none; background: transparent; padding: 0.75rem; color: #484848; min-width: 260px; font-size: 1rem;">
+          <button type="submit" style="background: #484848; color: #fff; border: none; padding: 0.75rem 1.25rem; font-weight: bold; font-size: 1rem; cursor: pointer;">Search</button>
+        </form>
+        <!-- Icons with labels -->
+        <div style="display: flex; align-items: flex-end; gap: 2rem;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <svg width="28" height="28" fill="none" stroke="#484848" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M12 2C7 2 3 6 3 10c0 5.25 9 12 9 12s9-6.75 9-12c0-4-4-8-9-8z"/>
+            </svg>
+            <span style="font-size: 0.9rem; color: #484848; margin-top: 2px;">Location</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <svg width="28" height="28" fill="none" stroke="#484848" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span style="font-size: 0.9rem; color: #484848; margin-top: 2px;">Cart</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <svg width="28" height="28" fill="none" stroke="#484848" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="7" r="4"/>
+              <path d="M5.5 21a8.38 8.38 0 0 1 13 0"/>
+            </svg>
+            <span style="font-size: 0.9rem; color: #484848; margin-top: 2px;">Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      @media (max-width: 768px) {
+        header > div {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        header form {
+          width: 100%;
+          margin-bottom: 0.5rem;
+        }
+        header .icons {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </header>
+</body>
+</html>

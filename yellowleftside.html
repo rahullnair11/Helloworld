@@ -1,0 +1,685 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CircleFour • Musical Instruments Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Responsive search bar visibility */
+    .desktop-search-bar { display: none; }
+    .mobile-search-bar { display: flex; }
+    @media (min-width: 768px) {
+      .desktop-search-bar { display: flex; }
+      .mobile-search-bar { display: none; }
+    }
+    :root{
+      --primary:#ffba00;      /* golden */
+      --secondary:#232323;
+      --background:#faf9f6;
+      --accent:#5cb030;
+      --slider-h:340px;       /* Slider height reduced from 400px to 340px */
+    }
+  html, body{ margin:0; padding:0; }
+  body{ background:var(--background); color:var(--secondary); }
+
+    /* Marquee */
+    @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+    .animate-marquee{ display:inline-block; min-width:100%; animation:marquee 18s linear infinite; }
+
+    /* Slider */
+    #servicesSlider{
+      position:relative; width:100vw;
+      margin-left:50%; transform:translateX(-50%);
+      overflow:hidden; height:var(--slider-h); min-height:var(--slider-h); max-height:var(--slider-h);
+      background:#000; line-height:0;
+    }
+    #servicesSliderTrack{ display:flex; height:100%; transition:transform .6s cubic-bezier(.4,0,.2,1); }
+    .servicesSlide{ flex:0 0 100vw; width:100vw; height:var(--slider-h); position:relative; }
+    .servicesSlide img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .servicesOverlay{
+      position:absolute; inset:auto 0 0 0; background:linear-gradient(180deg,rgba(0,0,0,.0),rgba(0,0,0,.55));
+      color:#fff; padding:1rem 1.25rem; font-weight:700; letter-spacing:.2px; text-shadow:0 1px 3px #000;
+      display:flex; align-items:flex-end; gap:.75rem;
+    }
+
+    /* Cards */
+    .product-card{ background:#fff; border-radius:.75rem; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.06); transition:transform .2s, box-shadow .2s; }
+    .product-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.08); }
+  .product-card{ min-height: 420px; height: 420px; display: flex; flex-direction: column; justify-content: flex-start; }
+  .product-card .p-4 { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; }
+  .product-card h3 { text-align: left; }
+  .product-card .desc { flex: 1 1 auto; display: flex; align-items: flex-start; max-height: 168px; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+    .badge{ position:absolute; top:.75rem; left:.75rem; background:var(--primary); color:#1a1a1a; padding:.25rem .5rem; border-radius:.4rem; font-size:.75rem; font-weight:800; }
+
+    /* Section headings */
+    .section-title{ font-size:1.5rem; font-weight:900; letter-spacing:.3px; }
+    .section-sub{ color:#6b7280; }
+
+    /* Brands row */
+    .brand-cell{ filter:grayscale(1) contrast(.8); opacity:.8; transition:filter .2s, opacity .2s; }
+    .brand-cell:hover{ filter:none; opacity:1; }
+
+    /* Utility */
+  .container-w{ max-width:1200px; margin:0 auto; padding:0 1rem; }
+  /* Header: make full-width and pull brand left */
+  header .container-w{ max-width:100% !important; margin:0 !important; padding-left:0 !important; padding-right:.5rem; }
+
+    /* Nav link alignment (reduced size + bold) */
+  .nav-link{ display:inline-flex; align-items:center; height:2.5rem; padding:0 .5rem; color:#000; font-weight:600; font-size:13px; letter-spacing:.2px; white-space:nowrap; flex-shrink:0; 
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+               "Helvetica Neue", Helvetica, Arial, sans-serif;}
+
+  /* Vertical left menu on desktop */
+  @media (min-width:768px){
+  #mainNav.container-w{ max-width:none; margin:0 !important; padding-left:0; }
+  #mainNav{ display:flex !important; flex-direction:column; align-items:stretch; gap:.25rem; width:160px; }
+    #mainNav .nav-link{ display:block; height:auto; padding:.5rem .75rem; white-space:normal; }
+  }
+
+  /* Mega menu sizing tweaks (smaller width, padding, gap, and font size) */
+    #megaInstruments .grid{ gap:1rem; } /* ~gap-4 */
+    #megaInstruments *{ font-size:12.5px; line-height:1.3; }
+    #megaInstruments .font-extrabold{ font-size:13.5px; }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.left-3{left:0.75rem}.top-full{top:100%}.z-50{z-index:50}.col-span-1{grid-column:span 1 / span 1}.col-span-12{grid-column:span 12 / span 12}.mb-0\.5{margin-bottom:0.125rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.ml-0{margin-left:0px}.ml-2{margin-left:0.5rem}.ml-3{margin-left:0.75rem}.ml-auto{margin-left:auto}.mr-0{margin-right:0px}.mt-0{margin-top:0px}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-8{margin-top:2rem}.block{display:block}.inline{display:inline}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-4{height:1rem}.h-48{height:12rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.w-4{width:1rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-\[min\(880px\2c calc\(100vw-2rem\)\)\]{width:min(880px,calc(100vw - 2rem))}.w-full{width:100%}.min-w-0{min-width:0px}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-0{gap:0px}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.overflow-x-hidden{overflow-x:hidden}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-l-md{border-top-left-radius:0.375rem;border-bottom-left-radius:0.375rem}.rounded-r-md{border-top-right-radius:0.375rem;border-bottom-right-radius:0.375rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.bg-\[\#111\]{--tw-bg-opacity:1;background-color:rgb(17 17 17 / var(--tw-bg-opacity, 1))}.bg-\[\#e5e5e5\]{--tw-bg-opacity:1;background-color:rgb(229 229 229 / var(--tw-bg-opacity, 1))}.bg-\[\#ffba00\]{--tw-bg-opacity:1;background-color:rgb(255 186 0 / var(--tw-bg-opacity, 1))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-200{--tw-bg-opacity:1;background-color:rgb(254 240 138 / var(--tw-bg-opacity, 1))}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pb-1{padding-bottom:0.25rem}.pb-2{padding-bottom:0.5rem}.pb-4{padding-bottom:1rem}.pl-4{padding-left:1rem}.pl-9{padding-left:2.25rem}.pr-4{padding-right:1rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/90{color:rgb(255 255 255 / 0.9)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.hover\:opacity-90:hover{opacity:0.9}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-yellow-300:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(253 224 71 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:col-span-1{grid-column:span 1 / span 1}.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:col-span-3{grid-column:span 3 / span 3}.md\:col-span-9{grid-column:span 9 / span 9}.md\:ml-0{margin-left:0px}.md\:mt-0{margin-top:0px}.md\:flex{display:flex}.md\:hidden{display:none}.md\:w-80{width:20rem}.md\:w-auto{width:auto}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-nowrap{flex-wrap:nowrap}}@media (min-width: 1024px){.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.left-3{left:0.75rem}.top-full{top:100%}.z-50{z-index:50}.col-span-1{grid-column:span 1 / span 1}.col-span-12{grid-column:span 12 / span 12}.mb-0\.5{margin-bottom:0.125rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.ml-0{margin-left:0px}.ml-2{margin-left:0.5rem}.ml-3{margin-left:0.75rem}.ml-auto{margin-left:auto}.mr-0{margin-right:0px}.mt-0{margin-top:0px}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-8{margin-top:2rem}.block{display:block}.inline{display:inline}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-4{height:1rem}.h-48{height:12rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.w-4{width:1rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-\[min\(880px\2c calc\(100vw-2rem\)\)\]{width:min(880px,calc(100vw - 2rem))}.w-full{width:100%}.min-w-0{min-width:0px}.flex-1{flex:1 1 0%}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-0{gap:0px}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.overflow-x-hidden{overflow-x:hidden}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-l-md{border-top-left-radius:0.375rem;border-bottom-left-radius:0.375rem}.rounded-r-md{border-top-right-radius:0.375rem;border-bottom-right-radius:0.375rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.bg-\[\#111\]{--tw-bg-opacity:1;background-color:rgb(17 17 17 / var(--tw-bg-opacity, 1))}.bg-\[\#e5e5e5\]{--tw-bg-opacity:1;background-color:rgb(229 229 229 / var(--tw-bg-opacity, 1))}.bg-\[var\(--primary\)\]{background-color:var(--primary)}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-200{--tw-bg-opacity:1;background-color:rgb(254 240 138 / var(--tw-bg-opacity, 1))}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.px-0{padding-left:0px;padding-right:0px}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pb-1{padding-bottom:0.25rem}.pb-2{padding-bottom:0.5rem}.pb-4{padding-bottom:1rem}.pl-0{padding-left:0px}.pl-4{padding-left:1rem}.pl-9{padding-left:2.25rem}.pr-4{padding-right:1rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/90{color:rgb(255 255 255 / 0.9)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.hover\:opacity-90:hover{opacity:0.9}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-yellow-300:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(253 224 71 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:col-span-1{grid-column:span 1 / span 1}.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:col-span-3{grid-column:span 3 / span 3}.md\:col-span-9{grid-column:span 9 / span 9}.md\:ml-0{margin-left:0px}.md\:mt-0{margin-top:0px}.md\:block{display:block}.md\:flex{display:flex}.md\:hidden{display:none}.md\:w-80{width:20rem}.md\:w-\[240px\]{width:240px}.md\:w-auto{width:auto}.md\:flex-1{flex:1 1 0%}.md\:shrink-0{flex-shrink:0}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-start{align-items:flex-start}.md\:pl-6{padding-left:1.5rem}.md\:pt-2{padding-top:0.5rem}}@media (min-width: 1024px){.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.left-3{left:0.75rem}.top-full{top:100%}.z-50{z-index:50}.col-span-1{grid-column:span 1 / span 1}.col-span-12{grid-column:span 12 / span 12}.mb-0\.5{margin-bottom:0.125rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.ml-0{margin-left:0px}.ml-2{margin-left:0.5rem}.ml-3{margin-left:0.75rem}.ml-auto{margin-left:auto}.mr-0{margin-right:0px}.mt-0{margin-top:0px}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-8{margin-top:2rem}.block{display:block}.inline{display:inline}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-4{height:1rem}.h-48{height:12rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.w-4{width:1rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-\[min\(880px\2c calc\(100vw-2rem\)\)\]{width:min(880px,calc(100vw - 2rem))}.w-full{width:100%}.min-w-0{min-width:0px}.flex-1{flex:1 1 0%}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-0{gap:0px}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.overflow-x-hidden{overflow-x:hidden}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-l-md{border-top-left-radius:0.375rem;border-bottom-left-radius:0.375rem}.rounded-r-md{border-top-right-radius:0.375rem;border-bottom-right-radius:0.375rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.bg-\[\#111\]{--tw-bg-opacity:1;background-color:rgb(17 17 17 / var(--tw-bg-opacity, 1))}.bg-\[\#e5e5e5\]{--tw-bg-opacity:1;background-color:rgb(229 229 229 / var(--tw-bg-opacity, 1))}.bg-\[var\(--primary\)\]{background-color:var(--primary)}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-200{--tw-bg-opacity:1;background-color:rgb(254 240 138 / var(--tw-bg-opacity, 1))}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.px-0{padding-left:0px;padding-right:0px}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pb-1{padding-bottom:0.25rem}.pb-2{padding-bottom:0.5rem}.pb-4{padding-bottom:1rem}.pl-0{padding-left:0px}.pl-4{padding-left:1rem}.pl-9{padding-left:2.25rem}.pr-4{padding-right:1rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/90{color:rgb(255 255 255 / 0.9)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.hover\:opacity-90:hover{opacity:0.9}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-yellow-300:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(253 224 71 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:col-span-1{grid-column:span 1 / span 1}.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:col-span-3{grid-column:span 3 / span 3}.md\:col-span-9{grid-column:span 9 / span 9}.md\:ml-0{margin-left:0px}.md\:mt-0{margin-top:0px}.md\:block{display:block}.md\:flex{display:flex}.md\:hidden{display:none}.md\:w-80{width:20rem}.md\:w-\[180px\]{width:180px}.md\:w-auto{width:auto}.md\:flex-1{flex:1 1 0%}.md\:shrink-0{flex-shrink:0}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-start{align-items:flex-start}.md\:pl-6{padding-left:1.5rem}.md\:pt-2{padding-top:0.5rem}}@media (min-width: 1024px){.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style></head>
+<body class="overflow-x-hidden">
+
+<!-- Header placed BELOW the slider -->
+
+  <header class="bg-white py-1 shadow">
+    <!-- Mobile header: logo and icons in a row -->
+  <div class="md:hidden flex items-center justify-between py-2 px-0">
+  <img src="logo1.png" alt="Logo" style="height: 50px; width: 445px; max-height: 50px; object-fit: contain; margin-left:0; margin-right:-240px;" class="mr-0 ml-0">
+      <div class="flex items-center gap-5">
+        <a href="#location" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Location">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+          </svg>
+          <span class="text-xs mt-0.5 text-black">Location</span>
+        </a>
+        <a href="#cart" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Cart">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 4m12 0a2 2 0 11-4 0m6 0a2 2 0 11-4 0"></path>
+          </svg>
+          <span class="text-xs mt-0.5 text-black">Cart</span>
+        </a>
+        <a href="#profile" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Profile">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 21a8.25 8.25 0 1115 0v-.75A3.75 3.75 0 0015.75 16.5h-7.5A3.75 3.75 0 004.5 20.25V21z"></path>
+          </svg>
+          <span class="text-xs mt-0.5 text-black">Profile</span>
+        </a>
+      </div>
+    </div>
+  <div class="container-w flex flex-row items-center justify-between w-full gap-2" style="padding-left:0;">
+    <!-- Brand (logo text only) left, desktop only -->
+    <div class="hidden md:flex" style="max-height:54px;">
+  <div style="background:#fff;height: 64px;width:180px;display:flex;align-items:center;justify-content:center;margin-bottom:0;margin-top: -4px;">
+    <img src="logo1.png" alt="Logo" style="height: 42px;width: 140px;object-fit: contain;margin-left: -44px;margin-right:0;">
+      </div>
+    </div>
+      <!-- Search bar, button, and icons right-aligned (desktop only) -->
+      <div class="flex flex-row items-center gap-4 ml-auto hidden md:flex">
+        <div class="flex w-full md:w-auto">
+          <div class="desktop-search-bar hidden md:flex w-full md:w-auto">
+            <div class="relative flex-1 min-w-0">
+              <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 110-16 8 8 0 010 16z"></path>
+                </svg>
+              </span>
+              <input type="text" placeholder="Search for products, brands and more" class="w-full md:w-80 bg-gray-100 rounded-l-md pl-9 pr-4 h-10 text-sm outline-none focus:ring-2 focus:ring-yellow-300" aria-label="Search">
+            </div>
+            <button class="bg-black text-white font-bold px-4 h-10 rounded-r-md md:ml-0 ml-2 mt-2 md:mt-0 border border-gray-300">Search</button>
+          </div>
+        </div>
+        <!-- Icons with text below (desktop only) -->
+        <div class="flex items-center gap-5 ml-3">
+          <a href="#location" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Location">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+            </svg>
+            <span class="text-xs mt-0.5 text-black">Location</span>
+          </a>
+          <a href="#cart" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 4m12 0a2 2 0 11-4 0m6 0a2 2 0 11-4 0"></path>
+            </svg>
+            <span class="text-xs mt-0.5 text-black">Cart</span>
+          </a>
+          <a href="#profile" class="text-black flex flex-col items-center gap-0 hover:opacity-90" title="Profile">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 21a8.25 8.25 0 1115 0v-.75A3.75 3.75 0 0015.75 16.5h-7.5A3.75 3.75 0 004.5 20.25V21z"></path>
+            </svg>
+            <span class="text-xs mt-0.5 text-black">Profile</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Main menu moved below top bar -->
+    <!-- Nav moved to sidebar below header for desktop -->
+
+    <!-- Mobile search bar OUTSIDE menu panel for mobile -->
+  <div class="md:hidden block bg-[var(--primary)]/95 pl-0 pr-4 pt-2 pb-2">
+      <form class="mobile-search-bar flex items-center md:hidden" role="search" onsubmit="event.preventDefault();">
+        <input class="flex-1 bg-white rounded-l-md px-3 py-2 outline-none" placeholder="Search for products, brands and more">
+        <button class="bg-black text-white font-bold px-3 py-2 rounded-r-md">Go</button>
+      </form>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button id="menuToggle" class="md:hidden text-white p-2 ml-auto" aria-label="Toggle Menu">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  
+
+  <!-- Mobile Panel: updated links only -->
+  <div id="mobilePanel" class="md:hidden hidden bg-[var(--primary)]/95 px-4 pb-4">
+    <nav class="flex flex-col gap-2">
+      <a href="#learn" class="text-white font-semibold">Learn Music</a>
+      <div class="">
+        <button type="button" class="text-white font-semibold flex items-center w-full justify-between" onclick="this.nextElementSibling.classList.toggle('hidden')">
+          Buy Instruments
+          <svg class="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="pl-4 mt-1 hidden">
+          <a href="#guitar" class="block text-white/90 py-1">Guitar</a>
+          <a href="#violins" class="block text-white/90 py-1">Violins</a>
+          <a href="#sitar" class="block text-white/90 py-1">Sitar</a>
+          <a href="#cello" class="block text-white/90 py-1">Cello</a>
+          <a href="#keyboard" class="block text-white/90 py-1">Keyboard</a>
+          <a href="#drumkit" class="block text-white/90 py-1">Drum kit</a>
+          <a href="#cajons" class="block text-white/90 py-1">Cajons</a>
+        </div>
+      </div>
+      <a href="#rent" class="text-white font-semibold">Gear on Rent</a>
+      <a href="#used-gear" class="text-white font-semibold">Buy Used Gear</a>
+      <a href="#accessories" class="text-white font-semibold">Maintenance &amp; Repairs</a>
+      <a href="#accessories" class="text-white font-semibold">Accessories</a>
+      <a href="#accessories" class="text-white font-semibold">Bands &amp; Musicians</a>
+      <a href="#accessories" class="text-white font-semibold">Music Production</a>
+      <a href="#accessories" class="text-white font-semibold">Other</a>
+    </nav>
+  </div>
+  </header>
+  
+  <!-- Desktop layout: left sidebar + right content -->
+  <div class="md:flex md:flex-row md:items-start" style="background:#fff;">
+    <!-- Sidebar (desktop) -->
+  <aside class="hidden md:block md:w-[180px] md:shrink-0 md:pt-2" style="background:#fff;">
+      <nav id="mainNav" class="flex flex-col gap-1 pl-0 p-2">
+        <style>
+          .nav-link, .submenu-btn {
+            background: #e5e5e5;
+            color: #232323;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            transition: background 0.2s;
+          }
+          .nav-link:hover, .submenu-btn:hover {
+            background: #ffe066;
+            color: #232323;
+          }
+        </style>
+        <a href="#learn" class="nav-link hover:underline">Learn Music</a>
+        <div class="relative" id="buyMenu">
+          <a href="#buy" class="nav-link hover:underline" aria-expanded="false">Buy Instruments</a>
+          <div id="megaInstruments" class="absolute left-0 top-full mt-0 w-[min(880px,calc(100vw-2rem))] bg-white text-gray-900 shadow-2xl border rounded-xl p-3 z-50 hidden">
+            <div class="grid grid-cols-12 gap-4">
+              <aside class="col-span-12 md:col-span-3 bg-gray-50 rounded-lg p-2">
+                <div class="text-xs uppercase font-extrabold text-gray-500 mb-2">List of Instruments</div>
+                <ul id="instList" class="space-y-1.5">
+                  <li><button data-inst="guitar" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 border border-gray-300 bg-yellow-200 font-bold">Guitar</button></li>
+                  <li><button data-inst="violins" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 hover:bg-gray-100 border border-gray-300">Violins</button></li>
+                  <li><button data-inst="sitar" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 border border-gray-300 hover:bg-gray-100">Sitar</button></li>
+                  <li><button data-inst="cello" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 border border-gray-300 hover:bg-gray-100">Cello</button></li>
+                  <li><button data-inst="keyboard" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 border border-gray-300 hover:bg-gray-100">Keyboard</button></li>
+                  <li><button data-inst="drumkit" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 hover:bg-gray-100 border border-gray-300">Drum kit</button></li>
+                  <li><button data-inst="cajons" class="inst-btn w-full text-left px-2 py-1 rounded bg-[#e5e5e5] text-gray-900 hover:bg-gray-100 border border-gray-300">Cajons</button></li>
+                </ul>
+              </aside>
+              <section class="col-span-12 md:col-span-9">
+                <div id="panel-guitar" class="inst-panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div>
+                    <div class="font-extrabold mb-2">Electric</div>
+                    <ul class="space-y-1 text-sm">
+                      <li><a href="#" class="hover:underline">Solid Body</a></li>
+                      <li><a href="#" class="hover:underline">Hollow &amp; Semi-Hollow</a></li>
+                      <li><a href="#" class="hover:underline">Left-Handed</a></li>
+                      <li><a href="#" class="hover:underline">Extended Range</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div class="font-extrabold mb-2">Acoustic</div>
+                    <ul class="space-y-1 text-sm">
+                      <li><a href="#" class="hover:underline">6-string</a></li>
+                      <li><a href="#" class="hover:underline">12-string</a></li>
+                      <li><a href="#" class="hover:underline">Acoustic-Electric</a></li>
+                      <li><a href="#" class="hover:underline">Classical &amp; Nylon</a></li>
+                      <li><a href="#" class="hover:underline">Left-Handed</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div class="font-extrabold mb-2">Effects</div>
+                    <ul class="space-y-1 text-sm">
+                      <li><a href="#" class="hover:underline">Amps</a></li>
+                      <li><a href="#" class="hover:underline">Effects Pedals</a></li>
+                      <li><a href="#" class="hover:underline">Preamps</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div class="font-extrabold mb-2">Accessories</div>
+                    <ul class="space-y-1 text-sm">
+                      <li><a href="#" class="hover:underline">Strings</a></li>
+                      <li><a href="#" class="hover:underline">Pickups</a></li>
+                      <li><a href="#" class="hover:underline">Cases</a></li>
+                      <li><a href="#" class="hover:underline">Straps</a></li>
+                      <li><a href="#" class="hover:underline">Picks</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-span-1 sm:col-span-2 lg:col-span-4 border-t pt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="sm:col-span-1 lg:col-span-2">
+                      <div class="font-extrabold mb-2">Bass — Electric</div>
+                      <ul class="space-y-1 text-sm">
+                        <li><a href="#" class="hover:underline">4-String</a></li>
+                        <li><a href="#" class="hover:underline">5-String</a></li>
+                        <li><a href="#" class="hover:underline">6-String</a></li>
+                        <li><a href="#" class="hover:underline">Fretless</a></li>
+                        <li><a href="#" class="hover:underline">Left-Handed</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <div class="font-extrabold mb-2">Bass — Acoustic</div>
+                      <ul class="space-y-1 text-sm">
+                        <li><a href="#" class="hover:underline">4-string</a></li>
+                        <li><a href="#" class="hover:underline">5-string</a></li>
+                        <li><a href="#" class="hover:underline">Left-Handed</a></li>
+                        <li><a href="#" class="hover:underline">Double Basses</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <div class="font-extrabold mb-2">Popular Brands</div>
+                      <ul class="space-y-1 text sm">
+                        <li><a href="#" class="hover:underline">Fender</a></li>
+                        <li><a href="#" class="hover:underline">Gibson</a></li>
+                        <li><a href="#" class="hover:underline">Ibanez</a></li>
+                        <li><a href="#" class="hover:underline">Yamaha</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <div class="font-extrabold mb-2">Popular Models</div>
+                      <ul class="space-y-1 text-sm">
+                        <li><a href="#" class="hover:underline">Stratocaster</a></li>
+                        <li><a href="#" class="hover:underline">Les Paul</a></li>
+                        <li><a href="#" class="hover:underline">RG Series</a></li>
+                        <li><a href="#" class="hover:underline">Pacificas</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="panel-violins" class="inst-panel hidden"><div class="text-sm text-gray-600">Violins categories</div></div>
+                <div id="panel-sitar" class="inst-panel hidden"><div class="text-sm text-gray-600">Shop Sitars, strings, mizrabs, and cases.</div></div>
+                <div id="panel-cello" class="inst-panel hidden"><div class="text-sm text-gray-600">Acoustic &amp; electric cellos, bows, and accessories.</div></div>
+                <div id="panel-keyboard" class="inst-panel hidden"><div class="text-sm text-gray-600">Digital pianos, synths, MIDI controllers, and more.</div></div>
+                <div id="panel-drumkit" class="inst-panel hidden"><div class="text-sm text-gray-600">Acoustic kits, e‑drums, cymbals, and hardware.</div></div>
+                <div id="panel-cajons" class="inst-panel hidden"><div class="text-sm text-gray-600">Cajons across sizes, finishes, and accessories.</div></div>
+              </section>
+            </div>
+          </div>
+        </div>
+        <a href="#rent" class="nav-link hover:underline">Gear on Rent</a>
+        <a href="#used-gear" class="nav-link hover:underline">Buy Used Gear</a>
+        <a href="#accessories" class="nav-link hover:underline">Maintenance &amp; Repairs </a>
+        <a href="#accessories" class="nav-link hover:underline">Accessories</a>
+        <a href="#accessories" class="nav-link hover:underline">Bands &amp; Musicians</a>
+        <a href="#accessories" class="nav-link hover:underline">Other</a>
+      </nav>
+    </aside>
+
+    <!-- Content area (desktop right) -->
+  <main class="md:flex-1 md:pl-6 bg-white">
+  <!-- <!-- Slider (400px) --> 
+  <!-- <section id="servicesSlider"> -->
+    <!-- <button id="svcPrev" class="absolute top-1/2 -translate-y-1/2 left-3 z-10 w-10 h-10 rounded-full bg-white/90 grid place-items-center hover:bg-[var(--primary)] hover:text-white" aria-label="Previous"> -->
+      <!-- <svg class="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> -->
+    <!-- </button> -->
+
+    <!-- <div id="servicesSliderTrack"> -->
+      <!-- <div class="servicesSlide"> -->
+        <!-- <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80" alt="Guitars & Basses"> -->
+        <!-- <div class="servicesOverlay"> -->
+          <!-- <span class="text-xl md:text-2xl">Huge Selection of Guitars & Basses</span> -->
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="servicesSlide"> -->
+        <!-- <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80" alt="Support"> -->
+        <!-- <div class="servicesOverlay"> -->
+          <!-- <span class="text-xl md:text-2xl">Personal Expert Advice & Support</span> -->
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="servicesSlide"> -->
+        <!-- <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1600&q=80" alt="Delivery"> -->
+        <!-- <div class="servicesOverlay"> -->
+          <!-- <span class="text-xl md:text-2xl">Fast, Free & Secure Delivery</span> -->
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="servicesSlide"> -->
+        <!-- <img src="https://images.unsplash.com/photo-1421882046699-09a0ff4ffb1b?auto=format&fit=crop&w=1600&q=80" alt="Events"> -->
+        <!-- <div class="servicesOverlay"> -->
+          <!-- <span class="text-xl md:text-2xl">Workshops, Masterclasses & Events</span> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+
+    <!-- <button id="svcNext" class="absolute top-1/2 -translate-y-1/2 right-3 z-10 w-10 h-10 rounded-full bg-white/90 grid place-items-center hover:bg-[var(--primary)] hover:text-white" aria-label="Next"> -->
+      <!-- <svg class="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg> -->
+    <!-- </button> -->
+  <!-- </section> -->
+
+  
+
+  <!-- Categories -->
+  <!-- <section class="container-w py-8" id="categories">
+    <div class="mb-4">
+      <h2 class="section-title">Shop by Category</h2>
+      <p class="section-sub">Find your sound in our curated collections.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <a href="#guitars" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=800&q=80" alt="Guitars">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Guitars</span>
+      </a>
+      <a href="#drums" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1530695354046-9f57b1c44b66?auto=format&fit=crop&w=800&q=80" alt="Drums">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Drums</span>
+      </a>
+      <a href="#keyboards" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80" alt="Keyboards">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Keyboards</span>
+      </a>
+      <a href="#orchestral" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80" alt="Orchestral">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Orchestral</span>
+      </a>
+      <a href="#recording" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80" alt="Recording">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Recording</span>
+      </a>
+      <a href="#accessories" class="relative rounded-lg overflow-hidden group">
+        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80" alt="Accessories">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+        <span class="absolute bottom-2 left-2 text-white font-bold">Accessories</span>
+      </a>
+    </div>
+  </section> -->
+
+  <!-- New Arrivals -->
+  <section class="container-w py-10" id="new-arrivals">
+    <div class="flex items-end justify-between mb-4">
+      <div>
+        <h2 class="section-title">Services</h2>
+      </div>
+      <!-- <a href="#new-arrivals" class="text-[var(--primary)] font-bold hover:underline">View all →</a> -->
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <a href="#learn-music" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="Learn music.jpg" alt="USB Microphone">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Learn Music</h3>
+              <div class="desc mt-2" style="text-align:left;">
+                Structured approach with a learning path. Get tutored by industry experts, performers, composers and get ready to finish your grades by world renowned music schools. Click here to start your Music Journey.
+              </div>
+            </div>
+        </div>
+      </a>
+
+
+      <a href="#buy-instruments" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Electric Guitar">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Buy Instruments</h3>
+              <div class="desc mt-2">
+                Curated list of instruments.
+          We offer Insurance for your gear to cover for any risk and AMC  for proper and timely maintenance of your gear by our experts. We know exactly what you need because we have been there. Click here to learn more
+              </div>
+            </div>
+        </div>
+      </a>
+
+      <a href="#gear-on-rent" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="Rent.jpg" alt="Electric Guitar">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Gear on Rent</h3>
+              <div class="desc mt-2">
+                Get your hands on your  favourite instruments and other gear to feel the bliss. Check out the list and rent today.
+              </div>
+            </div>
+        </div>
+      </a>
+
+      <a href="#buy-used-gear" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="used.jpg" alt="Electric Guitar">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Buy Used Gear</h3>
+              <div class="desc mt-2">
+                Check out our used gear, Which is as good as new and they come with Warranty. Top up with AMC and Insurance.
+              </div>
+            </div>
+        </div>
+      </a>
+
+      <a href="#maintenance-repairs" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="Repair.jpg" alt="Electric Guitar">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Maintenance &amp; Repairs</h3>
+              <div class="desc mt-2">
+                Experts with decades of maintance, service and repair experience are here to take care of your gear.  Click here to learn more
+              </div>
+            </div>
+        </div>
+      </a>
+
+      <a href="#accessories" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="Accessories.jpg" alt="Electric Guitar">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Accessories</h3>
+              <div class="desc mt-2">
+                As musicians we understand the need of having the right accessories. Some of them are custom designed to meet your needs. Check out the list.
+              </div>
+            </div>
+        </div>
+      </a>
+
+      
+
+      <a href="#bands-musicians" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="Bands.jpg" alt="Studio Headphones">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Bands &amp; Musicians</h3>
+              <div class="desc mt-2">
+                Outright Professionals, with decades of teaching, music performance and composing expertise  have come together to make your events and special occasions memorable. Click here to know more
+              </div>
+            </div>
+        </div>
+      </a>
+
+
+      <a href="#other-services" class="block">
+        <div class="product-card">
+          <div class="relative">
+            <img class="w-full h-48 object-cover" src="other.jpg" alt="Keyboard">
+          </div>
+            <div class="p-4">
+              <h3 class="font-bold">Other</h3>
+              <div class="desc mt-2">
+            <span><strong>Consultation</strong>: Get guidance from expert musicians before you start your Music Journey. Book an appointment today.<br><strong>Jam Rooms</strong>: Click here to checkout and book your Jamroom today.<br><strong>Music Production</strong>: No matter what your need is, we have industry experts to shape your ideas to reality. Click here to know more.</span>
+              </div>
+            </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+    </main>
+  </div>
+
+  <!-- Footer (brand updated to Circle4) -->
+  <footer class="bg-[#111] text-gray-300 pt-4 pb-2 mt-8">
+  <div class="container-w grid grid-cols-2 md:grid-cols-4 gap-4 pb-1 pt-1">
+      <div>
+        <div class="text-white font-extrabold text-xl mb-0.5">CircleFour</div>
+        <p class="text-xs text-gray-400 leading-tight">Your one‑stop shop for instruments, pro audio, and inspiration.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-0.5 text-sm">Support</h4>
+        <ul class="flex flex-wrap gap-2 text-xs">
+          <li><a href="#contact" class="hover:underline whitespace-nowrap">Contact us</a></li>
+          <li><a href="#" class="hover:underline whitespace-nowrap">Shipping</a></li>
+          <li><a href="#" class="hover:underline whitespace-nowrap">Returns</a></li>
+          <li><a href="#" class="hover:underline whitespace-nowrap">Warranty</a></li>
+        </ul>
+      </div>
+    </div>
+  <div class="container-w mt-2 text-xs text-gray-500">© <span id="yearCopy">2025</span> CircleFour. All rights reserved.</div>
+  </footer>
+
+  <script>
+
+    // Mobile panel toggle (search + nav together)
+    const menuToggle = document.getElementById('menuToggle');
+    const mobilePanel = document.getElementById('mobilePanel');
+    menuToggle?.addEventListener('click', ()=>{
+      mobilePanel.classList.toggle('hidden');
+    });
+    // Close mobile panel on link click
+    mobilePanel?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobilePanel.classList.add('hidden')));
+
+    // Smooth scroll for anchor links (header below slider; no sticky offset)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id && id.length>1){
+          const el = document.querySelector(id);
+          if(el){
+            e.preventDefault();
+            const top = el.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top, behavior:'smooth' });
+          }
+        }
+      });
+    });
+
+    // Footer year
+    document.getElementById('yearCopy').textContent = new Date().getFullYear();
+
+    // Why Shop With Us drawer interactions
+    const whyTrigger = document.getElementById('whyTrigger');
+    const whyDrawer  = document.getElementById('whyDrawer');
+    const whyOverlay = document.getElementById('whyOverlay');
+    const whyClose   = document.getElementById('whyClose');
+
+    function openDrawer(){
+      whyDrawer.classList.remove('translate-x-full');
+      whyOverlay.classList.remove('pointer-events-none');
+      requestAnimationFrame(()=>{
+        whyOverlay.classList.add('opacity-100');
+      });
+    }
+    function closeDrawer(){
+      whyDrawer.classList.add('translate-x-full');
+      whyOverlay.classList.add('pointer-events-none');
+      whyOverlay.classList.remove('opacity-100');
+    }
+
+    whyTrigger?.addEventListener('click', openDrawer);
+    whyOverlay?.addEventListener('click', closeDrawer);
+    whyClose?.addEventListener('click', closeDrawer);
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
+
+    // Mega menu: switch right panel when hovering instrument list
+    (function(){
+      const btns = document.querySelectorAll('.inst-btn');
+      const panels = document.querySelectorAll('.inst-panel');
+      function showPanel(key){
+        panels.forEach(p=> p.classList.add('hidden'));
+        document.getElementById('panel-'+key)?.classList.remove('hidden');
+      }
+      function activate(btn){
+        btns.forEach(b=>{ b.classList.remove('bg-yellow-200','font-bold'); b.classList.add('hover:bg-gray-100'); });
+        btn.classList.add('bg-yellow-200','font-bold');
+        btn.classList.remove('hover:bg-gray-100');
+      }
+      btns.forEach(b=>{
+        b.addEventListener('mouseenter', ()=>{ activate(b); showPanel(b.dataset.inst); });
+        b.addEventListener('focus', ()=>{ activate(b); showPanel(b.dataset.inst); });
+      });
+      // Default
+      const first = document.querySelector('.inst-btn[data-inst="guitar"]');
+      if(first){ activate(first); showPanel('guitar'); }
+    })();
+
+    // Keep mega menu open while cursor is over trigger or panel (prevents flicker)
+    (function(){
+      const buyMenu = document.getElementById('buyMenu');
+      const mega = document.getElementById('megaInstruments');
+      const trigger = buyMenu?.querySelector('a[href="#buy"]');
+      let hideTimer;
+
+      if(buyMenu && mega){
+        const open = () => {
+          clearTimeout(hideTimer);
+          mega.classList.remove('hidden');
+          mega.classList.add('block');
+          trigger?.setAttribute('aria-expanded','true');
+        };
+        const scheduleClose = () => {
+          clearTimeout(hideTimer);
+          hideTimer = setTimeout(() => {
+            // Close only if neither container nor panel are hovered
+            if(!buyMenu.matches(':hover')){
+              mega.classList.add('hidden');
+              mega.classList.remove('block');
+              trigger?.setAttribute('aria-expanded','false');
+            }
+          }, 120);
+        };
+
+        ['mouseenter','focusin'].forEach(evt => buyMenu.addEventListener(evt, open));
+        ['mouseleave','focusout'].forEach(evt => buyMenu.addEventListener(evt, scheduleClose));
+      }
+    })();
+  </script>
+
+</body></html>

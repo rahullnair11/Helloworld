@@ -1,591 +1,283 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Circle4 • Musical Instruments Store</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root{
-      --primary:#ffba00;      /* golden */
-      --secondary:#232323;
-      --background:#faf9f6;
-      --accent:#5cb030;
-      --slider-h:340px;       /* Slider height reduced from 400px to 340px */
-    }
-    body{ background:var(--background); color:var(--secondary); }
-
-    /* Marquee */
-    @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-    .animate-marquee{ display:inline-block; min-width:100%; animation:marquee 18s linear infinite; }
-
-    /* Slider */
-    #servicesSlider{
-      position:relative; width:100vw;
-      margin-left:50%; transform:translateX(-50%);
-      overflow:hidden; height:var(--slider-h); min-height:var(--slider-h); max-height:var(--slider-h);
-      background:#000; line-height:0;
-    }
-    #servicesSliderTrack{ display:flex; height:100%; transition:transform .6s cubic-bezier(.4,0,.2,1); }
-    .servicesSlide{ flex:0 0 100vw; width:100vw; height:var(--slider-h); position:relative; }
-    .servicesSlide img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .servicesOverlay{
-      position:absolute; inset:auto 0 0 0; background:linear-gradient(180deg,rgba(0,0,0,.0),rgba(0,0,0,.55));
-      color:#fff; padding:1rem 1.25rem; font-weight:700; letter-spacing:.2px; text-shadow:0 1px 3px #000;
-      display:flex; align-items:flex-end; gap:.75rem;
-    }
-
-    /* Cards */
-    .product-card{ background:#fff; border-radius:.75rem; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.06); transition:transform .2s, box-shadow .2s; }
-    .product-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.08); }
-    .badge{ position:absolute; top:.75rem; left:.75rem; background:var(--primary); color:#1a1a1a; padding:.25rem .5rem; border-radius:.4rem; font-size:.75rem; font-weight:800; }
-
-    /* Section headings */
-    .section-title{ font-size:1.5rem; font-weight:900; letter-spacing:.3px; }
-    .section-sub{ color:#6b7280; }
-
-    /* Brands row */
-    .brand-cell{ filter:grayscale(1) contrast(.8); opacity:.8; transition:filter .2s, opacity .2s; }
-    .brand-cell:hover{ filter:none; opacity:1; }
-
-    /* Utility */
-  .container-w{ max-width:1200px; margin:0 auto; padding:0 1rem; }
-  /* Header: pull brand left and free more width for search */
-  header .container-w{ padding-left:0 !important; padding-right:.5rem; }
-
-    /* Nav link alignment */
-    .nav-link{ display:inline-flex; align-items:center; height:2.5rem; padding:0 .5rem; color:#fff; font-weight:600; font-size:15px; letter-spacing:.2px; white-space:nowrap; flex-shrink:0; }
-
-    /* Mega menu sizing tweaks (smaller width, padding, gap, and font size) */
-    #megaInstruments{
-      width:min(880px, calc(100vw - 2rem));
-      padding:0.75rem; /* ~p-3 */
-    }
-    #megaInstruments .grid{ gap:1rem; } /* ~gap-4 */
-    #megaInstruments *{ font-size:12.5px; line-height:1.3; }
-    #megaInstruments .font-extrabold{ font-size:13.5px; }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>CircleFour – Services (v9)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    html, body { font-family: ui-sans-serif, system-ui, sans-serif; color: #494848; }
+    .scrollarea::-webkit-scrollbar { width: 6px; }
+    .scrollarea::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,.15); border-radius: 9999px; }
+    h1,h2,h3,h4,h5,h6 { color: #494848; }
+    a, span, p, li { color: #494848; }
   </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="bg-white flex flex-col min-h-screen text-[#494848]">
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-[#FDB913]">
+<div class="max-w-7xl mx-auto px-4 py-3">
+<!-- Row 1: Logo left, Icons right (mobile & desktop) -->
+<div class="flex items-center gap-4">
+<!-- Hamburger (mobile only, left under this row visually we keep it here but hidden for alignment) -->
+<button class="md:hidden mr-2 -ml-1" id="hamburger">
+<svg class="h-7 w-7" fill="none" stroke="#494848" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Logo -->
+<a class="flex items-center gap-2 shrink-0" href="#">
+<span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-red-600 text-white">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 19V6.21l9-2.12V15a3 3 0 1 1-2-2.83V7.5l-5 1.18V19a3 3 0 1 1-2-2.83z"></path>
+</svg>
+</span>
+<span class="font-bold text-base">CIRCLEFOUR</span>
+</a>
+<div class="flex-1"></div>
+<!-- Icons right (mobile) -->
+<div class="flex md:hidden items-end gap-4">
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2c-3.866 0-7 3.134-7 7 0 5.523 7 13 7 13s7-7.477 7-13c0-3.866-3.134-7-7-7Z" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="12" cy="9" r="2.5" stroke="#494848" stroke-width="2"></circle>
+</svg>
+<span class="text-[10px] mt-1 font-bold">Location</span>
+</div>
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 4h2l1 6h11.5a1 1 0 0 0 .96-.73l1.5-5.27H7" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M7 13h10l-1.2 4.2a1 1 0 0 1-.96.8H8.5a1 1 0 0 1-.98-.8L7 13Z" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="10" cy="21" fill="#494848" r="1"></circle>
+<circle cx="17" cy="21" fill="#494848" r="1"></circle>
+</svg>
+<span class="text-[10px] mt-1 font-bold">Cart</span>
+</div>
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="8.5" r="3.5" stroke="#494848" stroke-width="2"></circle>
+<path d="M5 19.5a7 7 0 0 1 14 0" stroke="#494848" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] mt-1 font-bold">Profile</span>
+</div>
+</div>
+<!-- Desktop: Search + Icons -->
+<div class="hidden md:flex items-center gap-6">
+<div class="flex">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+<path d="M20 20l-3-3" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="w-[460px] rounded-l-md pl-9 pr-3 py-2 bg-white outline-none border border-gray-300 placeholder:text-gray-500 text-sm text-[#494848]" placeholder="Search for products, brands and more" type="text"/>
+</div>
+<button class="px-4 py-2 rounded-r-md bg-[#444444] text-white text-sm font-extrabold border border-gray-700 border-l-0">Search</button>
+</div>
+<div class="flex items-end gap-4">
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2c-3.866 0-7 3.134-7 7 0 5.523 7 13 7 13s7-7.477 7-13c0-3.866-3.134-7-7-7Z" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="12" cy="9" r="2.5" stroke="#494848" stroke-width="2"></circle>
+</svg>
+<span class="text-xs mt-1 font-bold">Location</span>
+</div>
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 4h2l1 6h11.5a1 1 0 0 0 .96-.73l1.5-5.27H7" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M7 13h10l-1.2 4.2a1 1 0 0 1-.96.8H8.5a1 1 0 0 1-.98-.8L7 13Z" stroke="#494848" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="10" cy="21" fill="#494848" r="1"></circle>
+<circle cx="17" cy="21" fill="#494848" r="1"></circle>
+</svg>
+<span class="text-xs mt-1 font-bold">Cart</span>
+</div>
+<div class="flex flex-col items-center leading-tight">
+<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="8.5" r="3.5" stroke="#494848" stroke-width="2"></circle>
+<path d="M5 19.5a7 7 0 0 1 14 0" stroke="#494848" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<span class="text-xs mt-1 font-bold">Profile</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 2: Mobile search full-width -->
+<div class="mt-3 md:hidden">
+<div class="flex">
+<div class="relative flex-1">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+<path d="M20 20l-3-3" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="w-full rounded-l-md pl-9 pr-3 py-2 bg-white outline-none border border-gray-300 placeholder:text-gray-500 text-sm text-[#494848]" placeholder="Search for products, brands and more" type="text"/>
+</div>
+<button class="px-4 py-2 rounded-r-md bg-[#444444] text-white text-sm font-extrabold border border-gray-700 border-l-0">Search</button>
+</div>
+</div>
+<!-- Row 3: Desktop menu; mobile handled by drawer -->
+<div class="max-w-7xl mx-auto px-0 md:px-4">
+<nav class="hidden md:flex items-center gap-6 text-sm font-bold py-3 relative">
+<button id="learnMusicLink">LEARN MUSIC</button>
+<button id="buyInstrumentsLink">BUY INSTRUMENTS</button>
+<a href="#">GEAR ON RENT</a>
+<a href="#">BUY USED GEAR</a>
+<a href="#">MAINTENANCE &amp; REPAIRS</a>
+<a href="#">ACCESSORIES</a>
+<a href="#">BANDS &amp; MUSICIANS</a>
+<a href="#">OTHER</a>
+<div class="hidden absolute left-0 top-full mt-2 bg-white rounded-xl shadow-2xl text-[#494848] w-[760px] p-3" id="learnMega"><div class="grid grid-cols-12 gap-3"><div class="col-span-5"><h4 class="text-[11px] font-extrabold tracking-wide uppercase mb-2">LEARNING PACKAGES</h4><div class="space-y-2"><a class="block rounded px-3 font-semibold bg-yellow-100 border border-yellow-300 px-2.5 py-1 text-xs" href="#">Music for Little ones (Age 6-10)</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Crash Course</a></div><h4 class="text-[11px] font-extrabold tracking-wide uppercase mt-4 mb-2">PROFESSIONAL LEARNING</h4><div class="space-y-2"><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Foundational</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Grade Initial</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Beginner</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Intermediate</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Advanced</a><a class="block rounded px-3 bg-gray-100 px-2.5 py-1 text-xs" href="#">Genres</a></div></div><div class="col-span-7"><div class="rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-1.5"><img alt="Learn Music" class="block w-full rounded-md border border-gray-300 h-[28px]" src="#"/></div><a class="text-xs mt-1.5 text-center underline text-blue-600" href="#">Please watch our overview Video</a><p class="text-xs mt-1.5 text-center font-medium">Click any Learning packages to get started</p></div></div></div><div class="hidden absolute left-0 top-full mt-2 w-[980px] bg-white rounded-xl shadow-2xl p-4 text-[#494848]" id="buyMega"><div class="grid grid-cols-6 gap-4"><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Strings</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Acoustic Guitar</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Electric Guitar</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Bass Guitar</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Ukulele</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Violin (Western)</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Sitar</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Veena - Tanjavuru/Jack Fruit</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Tanpura /Tamboori</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Folk Chordophones</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Piano</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Santoor</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Sarod</a></li></ul></div><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Percussion</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Drum Kit Accoustic</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Tabla</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cajon</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Studio &amp; Electronic Drums</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cymbals and Accessories</a></li></ul></div><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Wind</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Recorder</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Flute (Western)</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Bansuri</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Saxophone</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Trumpet (Brass)</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Clarinet</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Shehnai</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Harmonium</a></li></ul></div><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Electronic</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Keyboard</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Piano</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">MIDI</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Electric Veena</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Synthesizer</a></li></ul></div><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Accessories</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Strings</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cases &amp; Bags</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Stands &amp; Mounts</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Tuners &amp; Metronomes</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Amplification &amp; Cables</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Reeds &amp; Mouthpieces</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Percussion Accessories</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Electronic Add-ons</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Sheet Music &amp; Books</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cleaning &amp; Maintenance</a></li></ul></div><div><h4 class="font-extrabold text-[11px] uppercase tracking-wide text-gray-700 mb-2">Popular Brands</h4><ul class="space-y-1.5"><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Yamaha</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Fender</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Ibanez</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cort</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Epiphone</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Stentor</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Fiddlerman</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Cecilio</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Pearl</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Ludwig</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Roland</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Casio</a></li><li><a class="block text-xs bg-gray-50 hover:bg-gray-100 rounded px-2.5 py-1" href="#">Korg</a></li></ul></div></div></div></nav>
+</div>
+</div>
+<!-- Mobile drawer (50% width, full height) + backdrop -->
+<div class="fixed inset-0 bg-black/30 hidden z-40" id="drawerBackdrop"></div>
+<aside class="fixed top-0 left-0 h-screen w-1/2 bg-[#FDB913] z-50 transform -translate-x-full transition-transform duration-300 md:hidden shadow-xl" id="drawer">
+<nav class="flex flex-col py-4 text-sm font-bold px-3">
+<div class="py-2"><button class="w-full flex items-center justify-between py-2" id="mLearnBtn">LEARN MUSIC<svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><div class="hidden pl-3 mt-1" id="mLearnPanel"><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">LEARNING PACKAGES</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Music for Little ones (Age 6-10)</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Crash Course</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">PROFESSIONAL LEARNING</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Foundational</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Grade Initial</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Beginner</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Intermediate</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Advanced</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Genres</a></li></ul></div></div>
+<div class="py-2"><button class="w-full flex items-center justify-between py-2" id="mBuyBtn">BUY INSTRUMENTS<svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><div class="hidden pl-3 mt-1" id="mBuyPanel"><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Strings</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Acoustic Guitar</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Electric Guitar</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Bass Guitar</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Ukulele</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Violin (Western)</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Sitar</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Veena - Tanjavuru/Jack Fruit</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Tanpura /Tamboori</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Folk Chordophones</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Piano</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Santoor</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Sarod</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Percussion</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Drum Kit Accoustic</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Tabla</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cajon</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Studio &amp; Electronic Drums</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cymbals and Accessories</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Wind</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Recorder</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Flute (Western)</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Bansuri</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Saxophone</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Trumpet (Brass)</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Clarinet</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Shehnai</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Harmonium</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Electronic</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Keyboard</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Piano</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">MIDI</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Electric Veena</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Synthesizer</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Accessories</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Strings</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cases &amp; Bags</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Stands &amp; Mounts</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Tuners &amp; Metronomes</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Amplification &amp; Cables</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Reeds &amp; Mouthpieces</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Percussion Accessories</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Electronic Add-ons</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Sheet Music &amp; Books</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cleaning &amp; Maintenance</a></li></ul><h4 class="uppercase text-[11px] font-bold text-gray-700 mt-2">Popular Brands</h4><ul class="mt-1 space-y-1"><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Yamaha</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Fender</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Ibanez</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cort</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Epiphone</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Stentor</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Fiddlerman</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Cecilio</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Pearl</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Ludwig</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Roland</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Casio</a></li><li><a class="block text-xs px-2 py-1 rounded bg-yellow-50/0 hover:bg-yellow-50" href="#">Korg</a></li></ul></div></div>
+<a class="py-2" href="#">GEAR ON RENT</a>
+<a class="py-2" href="#">BUY USED GEAR</a>
+<a class="py-2" href="#">MAINTENANCE &amp; REPAIRS</a>
+<a class="py-2" href="#">ACCESSORIES</a>
+<a class="py-2" href="#">BANDS &amp; MUSICIANS</a>
+<a class="py-2" href="#">OTHER</a>
+</nav>
+</aside>
+</header>
+<!-- Main -->
+<main class="flex-1 max-w-7xl mx-auto px-4 py-8">
+<h1 class="text-2xl font-bold mb-6">Services</h1>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="Learn music.jpg"/>
+<div class="p-4"><h3 class="font-bold">Learn Music</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Structured approach with a learning path. Get tutored by industry experts, performers, composers and get ready to finish your grades by world renowned music schools. Click here to start your Music.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&amp;w=1200&amp;auto=format&amp;fit=crop"/>
+<div class="p-4"><h3 class="font-bold">Buy Instruments</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Curated list of instruments. We offer Insurance for your gear to cover for any risk and AMC for proper and timely maintenance of your gear by our experts.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="Rent.jpg"/>
+<div class="p-4"><h3 class="font-bold">Gear on Rent</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Get your hands on your favourite instruments and other gear to feel the bliss. Check out the list and rent today.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="used.jpg"/>
+<div class="p-4"><h3 class="font-bold">Buy Used Gear</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Check out our used gear, which is as good as new and they come with Warranty. Top up with AMC and Insurance.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="Repair.jpg"/>
+<div class="p-4"><h3 class="font-bold">Maintenance &amp; Repairs</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Experts with decades of maintenance, service and repair experience are here to take care of your gear. Click here to learn more.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="Accessories.jpg"/>
+<div class="p-4"><h3 class="font-bold">Accessories</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">As musicians we understand the need of having the right accessories. Some of them are custom designed to meet your needs. Check out the list.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="Bands.jpg"/>
+<div class="p-4"><h3 class="font-bold">Bands &amp; Musicians</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm">Outright Professionals, with decades of teaching, music performance and composing expertise have come together to make your events and special occasions memorable. Click here to know more.</p></div>
+</article>
+<article class="bg-white rounded-lg shadow overflow-hidden border">
+<img alt="" class="h-48 w-full object-cover" src="other.jpg"/>
+<div class="p-4"><h3 class="font-bold">Other</h3><p class="scrollarea max-h-40 overflow-y-auto mt-2 text-sm"><strong>Consultation:</strong> Get guidance from expert musicians before you start your Music Journey. Book an appointment today.<br/><strong>Jam Rooms:</strong> Click here to checkout and book your Jamroom today.</p></div>
+</article>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-black text-gray-300 py-10">
+<div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<h2 class="text-white font-bold text-lg">CircleFour</h2>
+<p class="mt-2 text-sm">Your one-stop shop for instruments, pro audio, and inspiration.</p>
+<p class="mt-4 text-xs text-gray-500">© 2025 CircleFour. All rights reserved.</p>
+</div>
+<div>
+<h3 class="text-white font-bold mb-3">Support</h3>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-white" href="#">Contact us</a></li>
+<li><a class="hover:text-white" href="#">Shipping</a></li>
+<li><a class="hover:text-white" href="#">Returns</a></li>
+<li><a class="hover:text-white" href="#">Warranty</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-white font-bold mb-3">Follow Us</h3>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-white" href="#">Facebook</a></li>
+<li><a class="hover:text-white" href="#">Instagram</a></li>
+<li><a class="hover:text-white" href="#">YouTube</a></li>
+<li><a class="hover:text-white" href="#">Twitter</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+    (function () {
+      var burger = document.getElementById('hamburger');
+      var drawer = document.getElementById('drawer');
+      var backdrop = document.getElementById('drawerBackdrop');
+      if (!burger || !drawer || !backdrop) return;
 
-<!-- Header placed BELOW the slider -->
-
-  <header class="bg-[var(--primary)] py-1 shadow">
-    <div class="container-w flex flex-row items-center justify-between w-full gap-2">
-      <!-- Brand (logo text only) left -->
-      <div class="shrink-0 flex items-center gap-2 md:ml-0 ml-[-339px]">
-        <img src="Untitled.png" alt="Logo" style="height: 36px; width: 36px; object-fit: contain;" />
-        <span class="text-white font-extrabold text-2xl tracking-widest">Circle Four</span>
-      </div>
-      <!-- Search bar, button, and icons right-aligned -->
-      <div class="flex flex-row items-center gap-4 ml-auto">
-        <div class="flex w-full md:w-auto">
-          <div class="relative flex-1 min-w-0">
-            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 110-16 8 8 0 010 16z"/>
-              </svg>
-            </span>
-            <input
-              type="text"
-              placeholder="Search for products, brands and more"
-              class="w-full md:w-80 bg-gray-100 rounded-l-md pl-9 pr-4 h-10 text-sm outline-none focus:ring-2 focus:ring-yellow-300"
-              aria-label="Search"
-            />
-          </div>
-          <button class="bg-black text-white font-bold px-4 h-10 rounded-r-md md:ml-0 ml-2 mt-2 md:mt-0">Search</button>
-        </div>
-        <!-- Icons with text below -->
-        <div class="flex items-center gap-5 ml-3">
-          <a href="#location" class="text-white flex flex-col items-center gap-0 hover:opacity-90" title="Location">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
-            </svg>
-            <span class="text-xs mt-0.5">Location</span>
-          </a>
-          <a href="#cart" class="text-white flex flex-col items-center gap-0 hover:opacity-90" title="Cart">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 4m12 0a2 2 0 11-4 0m6 0a2 2 0 11-4 0"/>
-            </svg>
-            <span class="text-xs mt-0.5">Cart</span>
-          </a>
-          <a href="#profile" class="text-white flex flex-col items-center gap-0 hover:opacity-90" title="Profile">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 21a8.25 8.25 0 1115 0v-.75A3.75 3.75 0 0015.75 16.5h-7.5A3.75 3.75 0 004.5 20.25V21z"/>
-            </svg>
-            <span class="text-xs mt-0.5">Profile</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <!-- Main menu moved below top bar -->
-    <nav id="mainNav" class="hidden md:flex md:flex-nowrap items-center gap-4 ml-2 flex-1 whitespace-nowrap mt-2 container-w">
-      <a href="#learn" class="nav-link hover:underline">Learn Music</a>
-      <!-- Buy Instruments with mega dropdown -->
-      <div class="relative" id="buyMenu">
-        <a href="#buy" class="nav-link hover:underline" aria-expanded="false">Buy Instruments</a>
-        <!-- Mega dropdown: compact width and padding -->
-        <div id="megaInstruments" class="hidden absolute left-0 top-full mt-0 w-[min(880px,calc(100vw-2rem))] bg-white text-gray-900 shadow-2xl border rounded-xl p-3 z-50">
-          <div class="grid grid-cols-12 gap-4">
-            <!-- Left: List of Instruments -->
-            <aside class="col-span-12 md:col-span-3 bg-gray-50 rounded-lg p-2">
-              <div class="text-xs uppercase font-extrabold text-gray-500 mb-2">List of Instruments</div>
-              <ul id="instList" class="space-y-1.5">
-                <li><button data-inst="guitar"  class="inst-btn w-full text-left px-2 py-1 rounded bg-yellow-200 font-bold">Guitar</button></li>
-                <li><button data-inst="violins" class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Violins</button></li>
-                <li><button data-inst="sitar"   class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Sitar</button></li>
-                <li><button data-inst="cello"   class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Cello</button></li>
-                <li><button data-inst="keyboard"class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Keyboard</button></li>
-                <li><button data-inst="drumkit" class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Drum kit</button></li>
-                <li><button data-inst="cajons"  class="inst-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100">Cajons</button></li>
-              </ul>
-            </aside>
-            <!-- Right: Panels -->
-            <section class="col-span-12 md:col-span-9">
-              <!-- Guitar panel -->
-              <div id="panel-guitar" class="inst-panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <div class="font-extrabold mb-2">Electric</div>
-                  <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">Solid Body</a></li>
-                    <li><a href="#" class="hover:underline">Hollow & Semi-Hollow</a></li>
-                    <li><a href="#" class="hover:underline">Left-Handed</a></li>
-                    <li><a href="#" class="hover:underline">Extended Range</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <div class="font-extrabold mb-2">Acoustic</div>
-                  <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">6-string</a></li>
-                    <li><a href="#" class="hover:underline">12-string</a></li>
-                    <li><a href="#" class="hover:underline">Acoustic-Electric</a></li>
-                    <li><a href="#" class="hover:underline">Classical & Nylon</a></li>
-                    <li><a href="#" class="hover:underline">Left-Handed</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <div class="font-extrabold mb-2">Effects</div>
-                  <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">Amps</a></li>
-                    <li><a href="#" class="hover:underline">Effects Pedals</a></li>
-                    <li><a href="#" class="hover:underline">Preamps</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <div class="font-extrabold mb-2">Accessories</div>
-                  <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">Strings</a></li>
-                    <li><a href="#" class="hover:underline">Pickups</a></li>
-                    <li><a href="#" class="hover:underline">Cases</a></li>
-                    <li><a href="#" class="hover:underline">Straps</a></li>
-                    <li><a href="#" class="hover:underline">Picks</a></li>
-                  </ul>
-                </div>
-                <!-- Bass row -->
-                <div class="col-span-1 sm:col-span-2 lg:col-span-4 border-t pt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div class="sm:col-span-1 lg:col-span-2">
-                    <div class="font-extrabold mb-2">Bass — Electric</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">4-String</a></li>
-                      <li><a href="#" class="hover:underline">5-String</a></li>
-                      <li><a href="#" class="hover:underline">6-String</a></li>
-                      <li><a href="#" class="hover:underline">Fretless</a></li>
-                      <li><a href="#" class="hover:underline">Left-Handed</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="font-extrabold mb-2">Bass — Acoustic</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">4-string</a></li>
-                      <li><a href="#" class="hover:underline">5-string</a></li>
-                      <li><a href="#" class="hover:underline">Left-Handed</a></li>
-                      <li><a href="#" class="hover:underline">Double Basses</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="font-extrabold mb-2">Popular Brands</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">Fender</a></li>
-                      <li><a href="#" class="hover:underline">Gibson</a></li>
-                      <li><a href="#" class="hover:underline">Ibanez</a></li>
-                      <li><a href="#" class="hover:underline">Yamaha</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="font-extrabold mb-2">Popular Models</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">Stratocaster</a></li>
-                      <li><a href="#" class="hover:underline">Les Paul</a></li>
-                      <li><a href="#" class="hover:underline">RG Series</a></li>
-                      <li><a href="#" class="hover:underline">Pacificas</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- Other instrument panels (simple placeholders) -->
-              <div id="panel-violins" class="inst-panel hidden">
-                <div class="grid grid-cols-3 gap-6">
-                  <div>
-                    <div class="font-extrabold mb-2">Violins</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">Beginner</a></li>
-                      <li><a href="#" class="hover:underline">Intermediate</a></li>
-                      <li><a href="#" class="hover:underline">Professional</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="font-extrabold mb-2">Accessories</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">Bows</a></li>
-                      <li><a href="#" class="hover:underline">Strings</a></li>
-                      <li><a href="#" class="hover:underline">Cases</a></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="font-extrabold mb-2">Care</div>
-                    <ul class="space-y-1 text-sm">
-                      <li><a href="#" class="hover:underline">Rosin</a></li>
-                      <li><a href="#" class="hover:underline">Cleaners</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div id="panel-sitar" class="inst-panel hidden"><div class="text-sm text-gray-600">Shop Sitars, strings, mizrabs, and cases.</div></div>
-              <div id="panel-cello" class="inst-panel hidden"><div class="text-sm text-gray-600">Acoustic & electric cellos, bows, and accessories.</div></div>
-              <div id="panel-keyboard" class="inst-panel hidden"><div class="text-sm text-gray-600">Digital pianos, synths, MIDI controllers, and more.</div></div>
-              <div id="panel-drumkit" class="inst-panel hidden"><div class="text-sm text-gray-600">Acoustic kits, e‑drums, cymbals, and hardware.</div></div>
-              <div id="panel-cajons" class="inst-panel hidden"><div class="text-sm text-gray-600">Cajons across sizes, finishes, and accessories.</div></div>
-            </section>
-          </div>
-        </div>
-      </div>
-      <a href="#rent" class="nav-link hover:underline">Gear on Rent</a>
-      <a href="#used-gear" class="nav-link hover:underline">Buy/Sell used gear</a>
-      <a href="#accessories" class="nav-link hover:underline">Accessories</a>
-    </nav>
-
-
-      <!-- Mobile menu toggle -->
-      <button id="menuToggle" class="md:hidden text-white p-2 ml-auto" aria-label="Toggle Menu">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile Panel: search + updated links -->
-    <div id="mobilePanel" class="md:hidden hidden bg-[var(--primary)]/95 px-4 pb-4">
-      <form class="flex items-center mb-3" role="search" onsubmit="event.preventDefault();">
-        <input class="flex-1 bg-white rounded-l-md px-3 py-2 outline-none" placeholder="Search for products, brands and more" />
-        <button class="bg-black text-white font-bold px-3 py-2 rounded-r-md">Go</button>
-      </form>
-      <nav class="flex flex-col gap-2">
-        <a href="#learn" class="text-white font-semibold">Learn Music</a>
-        <a href="#buy" class="text-white font-semibold">Buy Instruments</a>
-        <a href="#rent" class="text-white font-semibold">Gear on Rent</a>
-        <a href="#used-gear" class="text-white font-semibold">Buy/Sell used gear</a>
-        <a href="#accessories" class="text-white font-semibold">Accessories</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- <!-- Slider (400px) --> 
-  <!-- <section id="servicesSlider"> -->
-    <!-- <button id="svcPrev" class="absolute top-1/2 -translate-y-1/2 left-3 z-10 w-10 h-10 rounded-full bg-white/90 grid place-items-center hover:bg-[var(--primary)] hover:text-white" aria-label="Previous"> -->
-      <!-- <svg class="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> -->
-    <!-- </button> -->
-
-    <!-- <div id="servicesSliderTrack"> -->
-      <!-- <div class="servicesSlide"> -->
-        <!-- <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80" alt="Guitars & Basses"> -->
-        <!-- <div class="servicesOverlay"> -->
-          <!-- <span class="text-xl md:text-2xl">Huge Selection of Guitars & Basses</span> -->
-        <!-- </div> -->
-      <!-- </div> -->
-      <!-- <div class="servicesSlide"> -->
-        <!-- <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80" alt="Support"> -->
-        <!-- <div class="servicesOverlay"> -->
-          <!-- <span class="text-xl md:text-2xl">Personal Expert Advice & Support</span> -->
-        <!-- </div> -->
-      <!-- </div> -->
-      <!-- <div class="servicesSlide"> -->
-        <!-- <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1600&q=80" alt="Delivery"> -->
-        <!-- <div class="servicesOverlay"> -->
-          <!-- <span class="text-xl md:text-2xl">Fast, Free & Secure Delivery</span> -->
-        <!-- </div> -->
-      <!-- </div> -->
-      <!-- <div class="servicesSlide"> -->
-        <!-- <img src="https://images.unsplash.com/photo-1421882046699-09a0ff4ffb1b?auto=format&fit=crop&w=1600&q=80" alt="Events"> -->
-        <!-- <div class="servicesOverlay"> -->
-          <!-- <span class="text-xl md:text-2xl">Workshops, Masterclasses & Events</span> -->
-        <!-- </div> -->
-      <!-- </div> -->
-    <!-- </div> -->
-
-    <!-- <button id="svcNext" class="absolute top-1/2 -translate-y-1/2 right-3 z-10 w-10 h-10 rounded-full bg-white/90 grid place-items-center hover:bg-[var(--primary)] hover:text-white" aria-label="Next"> -->
-      <!-- <svg class="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg> -->
-    <!-- </button> -->
-  <!-- </section> -->
-
-  
-
-  <!-- Categories -->
-  <section class="container-w py-8" id="categories">
-    <div class="mb-4">
-      <h2 class="section-title">Shop by Category</h2>
-      <p class="section-sub">Find your sound in our curated collections.</p>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      <a href="#guitars" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=800&q=80" alt="Guitars">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Guitars</span>
-      </a>
-      <a href="#drums" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1530695354046-9f57b1c44b66?auto=format&fit=crop&w=800&q=80" alt="Drums">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Drums</span>
-      </a>
-      <a href="#keyboards" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80" alt="Keyboards">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Keyboards</span>
-      </a>
-      <a href="#orchestral" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=800&q=80" alt="Orchestral">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Orchestral</span>
-      </a>
-      <a href="#recording" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80" alt="Recording">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Recording</span>
-      </a>
-      <a href="#accessories" class="relative rounded-lg overflow-hidden group">
-        <img class="w-full h-32 object-cover group-hover:scale-105 transition" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80" alt="Accessories">
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-        <span class="absolute bottom-2 left-2 text-white font-bold">Accessories</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- New Arrivals -->
-  <section class="container-w py-10" id="new-arrivals">
-    <div class="flex items-end justify-between mb-4">
-      <div>
-        <h2 class="section-title">New Arrivals</h2>
-        <p class="section-sub">Fresh instruments and latest gear.</p>
-      </div>
-      <a href="#new-arrivals" class="text-[var(--primary)] font-bold hover:underline">View all →</a>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div class="product-card">
-        <div class="relative">
-          <span class="badge">NEW</span>
-          <img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1513863323964-33d2ff3e0b5c?auto=format&fit=crop&w=1200&q=80" alt="Electric Guitar">
-        </div>
-        <div class="p-4">
-          <h3 class="font-bold">Electric Guitar Pro X</h3>
-          <p class="text-gray-500 text-sm">Maple Neck · 24 Frets</p>
-          <div class="mt-2 flex items-center justify-between">
-            <span class="font-extrabold text-lg">$699</span>
-            <button class="px-3 py-1.5 bg-[var(--primary)] text-white font-semibold rounded hover:brightness-110">Add</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="relative">
-          <span class="badge">NEW</span>
-          <img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80" alt="Studio Headphones">
-        </div>
-        <div class="p-4">
-          <h3 class="font-bold">Studio Headphones S7</h3>
-          <p class="text-gray-500 text-sm">Closed-back · 32Ω</p>
-          <div class="mt-2 flex items-center justify-between">
-            <span class="font-extrabold text-lg">$129</span>
-            <button class="px-3 py-1.5 bg-[var(--primary)] text-white font-semibold rounded hover:brightness-110">Add</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="relative">
-          <span class="badge">NEW</span>
-          <img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80" alt="USB Microphone">
-        </div>
-        <div class="p-4">
-          <h3 class="font-bold">USB Microphone StreamOne</h3>
-          <p class="text-gray-500 text-sm">Plug & Play · Cardioid</p>
-          <div class="mt-2 flex items-center justify-between">
-            <span class="font-extrabold text-lg">$89</span>
-            <button class="px-3 py-1.5 bg-[var(--primary)] text-white font-semibold rounded hover:brightness-110">Add</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="relative">
-          <span class="badge">NEW</span>
-          <img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80" alt="Keyboard">
-        </div>
-        <div class="p-4">
-          <h3 class="font-bold">Digital Piano K-88</h3>
-          <p class="text-gray-500 text-sm">Weighted Keys · Bluetooth</p>
-          <div class="mt-2 flex items-center justify-between">
-            <span class="font-extrabold text-lg">$999</span>
-            <button class="px-3 py-1.5 bg-[var(--primary)] text-white font-semibold rounded hover:brightness-110">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer (brand updated to Circle4) -->
-  <footer class="bg-[#111] text-gray-300 pt-10 pb-8 mt-8">
-    <div class="container-w grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div>
-        <div class="text-white font-extrabold text-2xl mb-2">Circle4</div>
-        <p class="text-sm text-gray-400">Your one‑stop shop for instruments, pro audio, and inspiration.</p>
-      </div>
-      <div>
-        <h4 class="text-white font-bold mb-2">Shop</h4>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#guitars" class="hover:underline">Guitars</a></li>
-          <li><a href="#drums" class="hover:underline">Drums</a></li>
-          <li><a href="#orchestral" class="hover:underline">Orchestral</a></li>
-          <li><a href="#recording" class="hover:underline">Recording</a></li>
-          <li><a href="#accessories" class="hover:underline">Accessories</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold mb-2">Support</h4>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#contact" class="hover:underline">Contact us</a></li>
-          <li><a href="#" class="hover:underline">Shipping</a></li>
-          <li><a href="#" class="hover:underline">Returns</a></li>
-          <li><a href="#" class="hover:underline">Warranty</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold mb-2">Follow</h4>
-        <div class="flex gap-3">
-          <a href="#" class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-white/20">f</a>
-          <a href="#" class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-white/20">x</a>
-          <a href="#" class="w-8 h-8 rounded bg-white/10 flex items-center justify-center hover:bg-white/20">in</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-w mt-8 text-xs text-gray-500">© <span id="yearCopy"></span> Circle4. All rights reserved.</div>
-  </footer>
-
-  <script>
-
-    // Mobile panel toggle (search + nav together)
-    const menuToggle = document.getElementById('menuToggle');
-    const mobilePanel = document.getElementById('mobilePanel');
-    menuToggle?.addEventListener('click', ()=>{
-      mobilePanel.classList.toggle('hidden');
-    });
-    // Close mobile panel on link click
-    mobilePanel?.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobilePanel.classList.add('hidden')));
-
-    // Smooth scroll for anchor links (header below slider; no sticky offset)
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const id = a.getAttribute('href');
-        if(id && id.length>1){
-          const el = document.querySelector(id);
-          if(el){
-            e.preventDefault();
-            const top = el.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({ top, behavior:'smooth' });
-          }
-        }
-      });
-    });
-
-    // Footer year
-    document.getElementById('yearCopy').textContent = new Date().getFullYear();
-
-    // Why Shop With Us drawer interactions
-    const whyTrigger = document.getElementById('whyTrigger');
-    const whyDrawer  = document.getElementById('whyDrawer');
-    const whyOverlay = document.getElementById('whyOverlay');
-    const whyClose   = document.getElementById('whyClose');
-
-    function openDrawer(){
-      whyDrawer.classList.remove('translate-x-full');
-      whyOverlay.classList.remove('pointer-events-none');
-      requestAnimationFrame(()=>{
-        whyOverlay.classList.add('opacity-100');
-      });
-    }
-    function closeDrawer(){
-      whyDrawer.classList.add('translate-x-full');
-      whyOverlay.classList.add('pointer-events-none');
-      whyOverlay.classList.remove('opacity-100');
-    }
-
-    whyTrigger?.addEventListener('click', openDrawer);
-    whyOverlay?.addEventListener('click', closeDrawer);
-    whyClose?.addEventListener('click', closeDrawer);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
-
-    // Mega menu: switch right panel when hovering instrument list
-    (function(){
-      const btns = document.querySelectorAll('.inst-btn');
-      const panels = document.querySelectorAll('.inst-panel');
-      function showPanel(key){
-        panels.forEach(p=> p.classList.add('hidden'));
-        document.getElementById('panel-'+key)?.classList.remove('hidden');
+      function closeDrawer() {
+        drawer.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
       }
-      function activate(btn){
-        btns.forEach(b=>{ b.classList.remove('bg-yellow-200','font-bold'); b.classList.add('hover:bg-gray-100'); });
-        btn.classList.add('bg-yellow-200','font-bold');
-        btn.classList.remove('hover:bg-gray-100');
+      function openDrawer() {
+        drawer.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
       }
-      btns.forEach(b=>{
-        b.addEventListener('mouseenter', ()=>{ activate(b); showPanel(b.dataset.inst); });
-        b.addEventListener('focus', ()=>{ activate(b); showPanel(b.dataset.inst); });
-      });
-      // Default
-      const first = document.querySelector('.inst-btn[data-inst="guitar"]');
-      if(first){ activate(first); showPanel('guitar'); }
-    })();
-
-    // Keep mega menu open while cursor is over trigger or panel (prevents flicker)
-    (function(){
-      const buyMenu = document.getElementById('buyMenu');
-      const mega = document.getElementById('megaInstruments');
-      const trigger = buyMenu?.querySelector('a[href="#buy"]');
-      let hideTimer;
-
-      if(buyMenu && mega){
-        const open = () => {
-          clearTimeout(hideTimer);
-          mega.classList.remove('hidden');
-          mega.classList.add('block');
-          trigger?.setAttribute('aria-expanded','true');
-        };
-        const scheduleClose = () => {
-          clearTimeout(hideTimer);
-          hideTimer = setTimeout(() => {
-            // Close only if neither container nor panel are hovered
-            if(!buyMenu.matches(':hover')){
-              mega.classList.add('hidden');
-              mega.classList.remove('block');
-              trigger?.setAttribute('aria-expanded','false');
-            }
-          }, 120);
-        };
-
-        ['mouseenter','focusin'].forEach(evt => buyMenu.addEventListener(evt, open));
-        ['mouseleave','focusout'].forEach(evt => buyMenu.addEventListener(evt, scheduleClose));
-      }
+      burger.addEventListener('click', openDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+      // close on Esc
+      window.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+      // ensure closed on resize to desktop
+      var mq = window.matchMedia('(min-width: 768px)');
+      function sync(e){ if(e.matches) closeDrawer(); }
+      mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync);
     })();
   </script>
-</body>
+<script>
+(function(){
+  var btn = document.getElementById('learnMusicLink');
+  var mega = document.getElementById('learnMega');
+  if(!btn || !mega) return;
+  var t;
+  function show(){ clearTimeout(t); mega.classList.remove('hidden'); }
+  function hide(){ t = setTimeout(function(){ mega.classList.add('hidden'); }, 120); }
+  btn.addEventListener('mouseenter', show);
+  btn.addEventListener('focus', show);
+  btn.addEventListener('mouseleave', hide);
+  mega.addEventListener('mouseenter', show);
+  mega.addEventListener('mouseleave', hide);
+})();
+</script><script>
+(function(){
+  function makeHoverToggle(btnId, panelId){
+    var btn = document.getElementById(btnId);
+    var panel = document.getElementById(panelId);
+    if(!btn || !panel) return;
+    var t;
+    function show(){ clearTimeout(t); panel.classList.remove('hidden'); }
+    function hide(){ t = setTimeout(function(){ panel.classList.add('hidden'); }, 120); }
+    btn.addEventListener('mouseenter', show);
+    btn.addEventListener('focus', show);
+    btn.addEventListener('mouseleave', hide);
+    panel.addEventListener('mouseenter', show);
+    panel.addEventListener('mouseleave', hide);
+  }
+  makeHoverToggle('learnMusicLink','learnMega');
+  makeHoverToggle('buyInstrumentsLink','buyMega');
+})();</script><script>
+(function(){
+  function toggle(id){ var el = document.getElementById(id); if(!el) return; el.classList.toggle('hidden'); }
+  var lb = document.getElementById('mLearnBtn');
+  var lp = document.getElementById('mLearnPanel');
+  var bb = document.getElementById('mBuyBtn');
+  var bp = document.getElementById('mBuyPanel');
+  if(lb&&lp){ lb.addEventListener('click', function(){ toggle('mLearnPanel'); }); }
+  if(bb&&bp){ bb.addEventListener('click', function(){ toggle('mBuyPanel'); }); }
+})();</script></body>
 </html>
